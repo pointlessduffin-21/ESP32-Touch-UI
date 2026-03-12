@@ -69,6 +69,17 @@ static void ui_task(void *arg)
             ui_update_alerts();
         }
 
+        /* Centralized + stations — every 2 seconds */
+        if ((tick % 40) == 0) {
+            ui_update_centralized();
+            ui_update_stations();
+        }
+
+        /* OEE — every 5 seconds */
+        if ((tick % 100) == 0) {
+            ui_update_oee();
+        }
+
         display_unlock();
 
         /* Periodic log at 10-second intervals */

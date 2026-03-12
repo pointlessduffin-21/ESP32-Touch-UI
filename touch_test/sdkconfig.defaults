@@ -1,0 +1,57 @@
+# sdkconfig.defaults — ESP32-P4-Function-EV-Board
+# These are applied on top of the board's base sdkconfig.
+# Run `idf.py menuconfig` to customize further.
+
+# ── Target ────────────────────────────────────────────────────────────────────
+CONFIG_IDF_TARGET="esp32p4"
+
+# ── Chip revision — ECO2 silicon (ROM string: esp32p4-eco2-20240710) ──────────
+# Set minimum revision to 0 so the firmware runs on ECO2 and newer.
+# NOTE: eco5 ROM linker scripts are still linked by the r3-evboard board def;
+# if eco5 ROM functions crash (GP=0 symptom), the fix is to patch the board's
+# CMakeLists or use an ESP-IDF version that has eco2-specific board support.
+CONFIG_ESP32P4_REV_MIN_FULL=0
+CONFIG_ESP32P4_REV_MAX_FULL=999
+
+# ── Flash ─────────────────────────────────────────────────────────────────────
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
+
+# ── PSRAM (32MB on P4 EV board) ───────────────────────────────────────────────
+CONFIG_SPIRAM=y
+# 200MHz PSRAM requires experimental features to be unlocked on ESP32-P4
+CONFIG_IDF_EXPERIMENTAL_FEATURES=y
+CONFIG_SPIRAM_SPEED_200M=y
+# XIP from PSRAM disabled — can cause early-boot crash if PSRAM init races
+# Enable these only after confirming stable boot:
+# CONFIG_SPIRAM_XIP_FROM_PSRAM=y
+# CONFIG_SPIRAM_FETCH_INSTRUCTIONS=y
+# CONFIG_SPIRAM_RODATA=y
+
+# ── FreeRTOS ──────────────────────────────────────────────────────────────────
+CONFIG_FREERTOS_HZ=1000
+
+# ── LVGL ──────────────────────────────────────────────────────────────────────
+CONFIG_LV_COLOR_DEPTH_16=y
+CONFIG_LV_MEM_SIZE=524288          # 512KB LVGL heap
+CONFIG_LV_FONT_MONTSERRAT_12=y
+CONFIG_LV_FONT_MONTSERRAT_14=y
+CONFIG_LV_FONT_MONTSERRAT_16=y
+CONFIG_LV_FONT_MONTSERRAT_18=y
+CONFIG_LV_FONT_MONTSERRAT_24=y
+CONFIG_LV_FONT_MONTSERRAT_32=y
+CONFIG_LV_FONT_MONTSERRAT_48=y
+
+# ── USB Serial/JTAG ───────────────────────────────────────────────────────────
+CONFIG_ESP_CONSOLE_USB_SERIAL_JTAG=y
+CONFIG_ESP_CONSOLE_SECONDARY_NONE=y
+
+# ── Logging ───────────────────────────────────────────────────────────────────
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_MAXIMUM_LEVEL_DEBUG=y
+
+# ── MIPI-DSI ──────────────────────────────────────────────────────────────────
+# IRAM_SAFE=n: LVGL's refresh-done callback is not in IRAM; disable the requirement
+CONFIG_LCD_DSI_ISR_IRAM_SAFE=n
+CONFIG_FREERTOS_ENABLE_STATIC_TASK_CLEAN_UP=n

@@ -1,13 +1,11 @@
 /**
- * ui.h — CubeRTMS Manufacturing Dashboard widget declarations
+ * ui.h — CubeRTMS Manufacturing Dashboard (all screens)
  *
- * Layout (1280x800):
- *   Nav bar        (y=0,   h=44)
- *   Line header    (y=44,  h=60)
- *   Period bar     (y=104, h=44)
- *   KPI row        (y=148, h=100)
- *   Left panel     (x=0,   y=248, w=780, h=552)  chart + table
- *   Right panel    (x=780, y=248, w=500, h=552)  alerts
+ * Screens (1280x800, swipe to navigate):
+ *   Screen 0 — Centralized Line Status (all lines overview)
+ *   Screen 1 — Line Dashboard (detail for selected line)
+ *   Screen 2 — OEE Dashboard (OEE breakdown)
+ *   Screen 3 — Station Performance + Quality
  */
 
 #pragma once
@@ -19,38 +17,36 @@ extern "C" {
 #include "lvgl.h"
 #include "../src/sensors.h"
 
-/* ── Screen ────────────────────────────────────────────────────────────────── */
-extern lv_obj_t *ui_Screen1;
+/* ── Screens ───────────────────────────────────────────────────────────────── */
+extern lv_obj_t *ui_ScreenCentralized;   /* Screen 0: all lines overview */
+extern lv_obj_t *ui_ScreenLineDash;      /* Screen 1: line detail */
+extern lv_obj_t *ui_ScreenOEE;          /* Screen 2: OEE breakdown */
+extern lv_obj_t *ui_ScreenStation;       /* Screen 3: station perf + quality */
 
-/* ── KPI value labels (updated by ui_update_kpi) ───────────────────────────── */
-extern lv_obj_t *ui_KpiActualVal;     /* actual count, red when below plan */
-extern lv_obj_t *ui_KpiEffVal;        /* efficiency %, red when < 100      */
-extern lv_obj_t *ui_KpiDefVal;        /* defects IPPM                      */
-
-/* ── Chart (left panel top) ─────────────────────────────────────────────────── */
-extern lv_obj_t         *ui_Chart;
+/* ── Line Dashboard widgets ────────────────────────────────────────────────── */
+extern lv_obj_t *ui_KpiActualVal;
+extern lv_obj_t *ui_KpiEffVal;
+extern lv_obj_t *ui_KpiDefVal;
+extern lv_obj_t *ui_Chart;
 extern lv_chart_series_t *ui_ChartSeriesPlan;
 extern lv_chart_series_t *ui_ChartSeriesActual;
-
-/* ── Table (left panel bottom) ──────────────────────────────────────────────── */
 extern lv_obj_t *ui_Table;
-
-/* ── Alert list container (right panel) ─────────────────────────────────────── */
-extern lv_obj_t *ui_AlertList;        /* scrollable container, parent of alert rows */
-
-/* ── Period selector buttons ────────────────────────────────────────────────── */
+extern lv_obj_t *ui_AlertList;
 extern lv_obj_t *ui_BtnToday;
 extern lv_obj_t *ui_BtnYesterday;
 extern lv_obj_t *ui_BtnLast7;
 
-/* ── Lifecycle ───────────────────────────────────────────────────────────────── */
+/* ── Lifecycle ─────────────────────────────────────────────────────────────── */
 void ui_init(void);
 
-/* ── Data refresh functions (call from ui_task under display_lock) ───────────── */
+/* ── Data refresh (call under display_lock) ──────────────────────────────── */
 void ui_update_kpi(void);
 void ui_update_chart(void);
 void ui_update_table(void);
 void ui_update_alerts(void);
+void ui_update_centralized(void);
+void ui_update_oee(void);
+void ui_update_stations(void);
 
 #ifdef __cplusplus
 }

@@ -12,12 +12,15 @@
 #include "display.h"
 
 #include "driver/gpio.h"
+#include "driver/i2c_master.h"
 #include "esp_ldo_regulator.h"
 #include "esp_lcd_mipi_dsi.h"
+#include "esp_lcd_panel_io.h"
 #include "esp_lcd_panel_ops.h"
 #include "esp_log.h"
 
 #include "lcd/esp_lcd_jd9365.h"
+#include "touch/esp_lcd_gsl3680.h"
 #include "lvgl_port_v9.h"
 
 static const char *TAG = "display";
@@ -356,12 +359,40 @@ void display_init(void)
     ESP_ERROR_CHECK(esp_lcd_panel_init(s_panel));
     ESP_LOGI(TAG, "JD9365 panel ready");
 
-    // 6. Register vsync callback + init vendor LVGL port (PPA 270° rotation)
+    // 5.5 Initialize GSL3680 touch controller (I2C_NUM_1, SDA=7, SCL=8)
+    static i2c_master_bus_handle_t s_i2c_bus = NULL;
+    i2c_master_bus_config_t i2c_bus_cfg = {
+        .i2c_port    = BSP_I2C_NUM,
+        .sda_io_num  = BSP_I2C_SDA,
+        .scl_io_num  = BSP_I2C_SCL,
+        .clk_source  = I2C_CLK_SRC_DEFAULT,
+        .glitch_ignore_cnt = 7,
+    };
+    ESP_ERROR_CHECK(i2c_new_master_bus(&i2c_bus_cfg, &s_i2c_bus));
+
+    esp_lcd_panel_io_handle_t tp_io = NULL;
+    esp_lcd_panel_io_i2c_config_t tp_io_cfg = ESP_LCD_TOUCH_IO_I2C_GSL3680_CONFIG();
+    tp_io_cfg.scl_speed_hz = 400000;
+    ESP_ERROR_CHECK(esp_lcd_new_panel_io_i2c(s_i2c_bus, &tp_io_cfg, &tp_io));
+
+    esp_lcd_touch_handle_t tp = NULL;
+    esp_lcd_touch_config_t tp_cfg = {
+        .x_max = 800,
+        .y_max = 1280,
+        .rst_gpio_num = BSP_TP_RST,
+        .int_gpio_num = BSP_TP_INT,
+        .levels   = { .reset = 0, .interrupt = 0 },
+        .flags    = { .swap_xy = 0, .mirror_x = 0, .mirror_y = 0 },
+    };
+    ESP_ERROR_CHECK(esp_lcd_touch_new_i2c_gsl3680(tp_io, &tp_cfg, &tp));
+    ESP_LOGI(TAG, "GSL3680 touch init OK");
+
+    // 6. Register vsync callback + init vendor LVGL port (PPA 90° rotation)
     esp_lcd_dpi_panel_event_callbacks_t cbs = {
         .on_refresh_done = display_on_vsync,
     };
     ESP_ERROR_CHECK(esp_lcd_dpi_panel_register_event_callbacks(s_panel, &cbs, NULL));
-    ESP_ERROR_CHECK(lvgl_port_init(s_panel, NULL, LVGL_PORT_INTERFACE_MIPI_DSI_DMA));
+    ESP_ERROR_CHECK(lvgl_port_init(s_panel, tp, LVGL_PORT_INTERFACE_MIPI_DSI_DMA));
     ESP_LOGI(TAG, "LVGL port + PPA rotation init OK");
 
     // 7. Backlight on
