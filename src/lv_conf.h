@@ -57,6 +57,16 @@
 #define LV_FONT_DEFAULT &lv_font_montserrat_16
 
 /*====================
+   WIDGETS
+ *====================*/
+#define LV_USE_BUTTON  1
+#define LV_USE_BTN     1
+#define LV_USE_CHART   1
+#define LV_USE_TABLE   1
+#define LV_USE_LIST    0
+#define LV_USE_BAR     1
+
+/*====================
    LOG
  *====================*/
 #define LV_USE_LOG      1
