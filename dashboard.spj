@@ -1,0 +1,300 @@
+{
+  "version": "1.4.0",
+  "name": "automotive_dashboard",
+  "board": "ESP32_Arduino",
+  "lvgl_version": "8.3.6",
+  "display_width": 1024,
+  "display_height": 600,
+  "color_depth": 16,
+  "default_font": "lv_font_montserrat_16",
+  "ui_export_path": "./ui",
+  "libraries_export_path": "./ui",
+  "project_export_root_path": ".",
+  "screens": [
+    {
+      "name": "Screen1",
+      "style": {
+        "bg_color": "#0a0a0a",
+        "bg_opa": 255
+      },
+      "children": [
+        {
+          "name": "SpeedPanel",
+          "type": "lv_obj",
+          "x": 0,
+          "y": 0,
+          "w": 380,
+          "h": 600,
+          "style": {
+            "bg_opa": 0,
+            "border_opa": 0
+          },
+          "children": [
+            {
+              "name": "SpeedBgArc",
+              "type": "lv_arc",
+              "x": 5,
+              "y": 30,
+              "w": 350,
+              "h": 350,
+              "bg_start_angle": 135,
+              "bg_end_angle": 45,
+              "range_min": 0,
+              "range_max": 220,
+              "value": 0,
+              "arc_color_main": "#2a2a2a",
+              "arc_width_main": 14,
+              "arc_opa_indicator": 0
+            },
+            {
+              "name": "SpeedArc",
+              "type": "lv_arc",
+              "x": 5,
+              "y": 30,
+              "w": 350,
+              "h": 350,
+              "bg_start_angle": 135,
+              "bg_end_angle": 45,
+              "range_min": 0,
+              "range_max": 220,
+              "value": 0,
+              "arc_opa_main": 0,
+              "arc_color_indicator": "#00e5cc",
+              "arc_width_indicator": 12,
+              "arc_rounded_indicator": true
+            },
+            {
+              "name": "SpeedLabel",
+              "type": "lv_label",
+              "x": 142,
+              "y": 200,
+              "w": 96,
+              "text": "0",
+              "text_font": "lv_font_montserrat_48",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "SpeedUnitLabel",
+              "type": "lv_label",
+              "x": 166,
+              "y": 256,
+              "text": "mph",
+              "text_font": "lv_font_montserrat_16",
+              "text_color": "#aaaaaa"
+            },
+            {
+              "name": "FuelRangeLabel",
+              "type": "lv_label",
+              "x": 150,
+              "y": 360,
+              "text": "200 mi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#cccccc"
+            }
+          ]
+        },
+        {
+          "name": "CenterPanel",
+          "type": "lv_obj",
+          "x": 300,
+          "y": 0,
+          "w": 200,
+          "h": 600,
+          "style": {
+            "bg_opa": 0,
+            "border_opa": 0
+          },
+          "children": [
+            {
+              "name": "VehicleImg",
+              "type": "lv_img",
+              "x": 60,
+              "y": 80,
+              "src": "vehicle_top.png"
+            },
+            {
+              "name": "TireFrontLeft",
+              "type": "lv_label",
+              "x": 6,
+              "y": 110,
+              "w": 44,
+              "text": "41\npsi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "TireFrontRight",
+              "type": "lv_label",
+              "x": 150,
+              "y": 110,
+              "w": 44,
+              "text": "41\npsi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "TireRearLeft",
+              "type": "lv_label",
+              "x": 6,
+              "y": 250,
+              "w": 44,
+              "text": "45\npsi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "TireRearRight",
+              "type": "lv_label",
+              "x": 150,
+              "y": 250,
+              "w": 44,
+              "text": "45\npsi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "OdometerLabel",
+              "type": "lv_label",
+              "x": 50,
+              "y": 390,
+              "w": 100,
+              "text": "1250 mi",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#aaaaaa",
+              "text_align": "center"
+            }
+          ]
+        },
+        {
+          "name": "RpmPanel",
+          "type": "lv_obj",
+          "x": 420,
+          "y": 0,
+          "w": 380,
+          "h": 600,
+          "style": {
+            "bg_opa": 0,
+            "border_opa": 0
+          },
+          "children": [
+            {
+              "name": "RpmBgArc",
+              "type": "lv_arc",
+              "x": 25,
+              "y": 30,
+              "w": 350,
+              "h": 350,
+              "bg_start_angle": 135,
+              "bg_end_angle": 45,
+              "range_min": 0,
+              "range_max": 80,
+              "value": 0,
+              "arc_color_main": "#2a2a2a",
+              "arc_width_main": 14,
+              "arc_opa_indicator": 0
+            },
+            {
+              "name": "RpmArc",
+              "type": "lv_arc",
+              "x": 25,
+              "y": 30,
+              "w": 350,
+              "h": 350,
+              "bg_start_angle": 135,
+              "bg_end_angle": 45,
+              "range_min": 0,
+              "range_max": 80,
+              "value": 0,
+              "arc_opa_main": 0,
+              "arc_color_indicator": "#00e5cc",
+              "arc_width_indicator": 12,
+              "arc_rounded_indicator": true
+            },
+            {
+              "name": "RpmRedArc",
+              "type": "lv_arc",
+              "x": 25,
+              "y": 30,
+              "w": 350,
+              "h": 350,
+              "bg_start_angle": 11,
+              "bg_end_angle": 45,
+              "range_min": 0,
+              "range_max": 100,
+              "value": 100,
+              "arc_opa_main": 0,
+              "arc_color_indicator": "#ff2222",
+              "arc_width_indicator": 12,
+              "note": "static redline 7000-8000 RPM"
+            },
+            {
+              "name": "GearLabel",
+              "type": "lv_label",
+              "x": 154,
+              "y": 196,
+              "w": 72,
+              "text": "0",
+              "text_font": "lv_font_montserrat_48",
+              "text_color": "#ffffff",
+              "text_align": "center"
+            },
+            {
+              "name": "DriveModeLabel",
+              "type": "lv_label",
+              "x": 160,
+              "y": 250,
+              "w": 60,
+              "text": "Sport",
+              "text_font": "lv_font_montserrat_16",
+              "text_color": "#aaaaaa",
+              "text_align": "center"
+            },
+            {
+              "name": "CoolantLabel",
+              "type": "lv_label",
+              "x": 154,
+              "y": 360,
+              "w": 72,
+              "text": "195\u00b0F",
+              "text_font": "lv_font_montserrat_14",
+              "text_color": "#cccccc",
+              "text_align": "center"
+            }
+          ]
+        },
+        {
+          "name": "AmbientTempLabel",
+          "type": "lv_label",
+          "x": 360,
+          "y": 14,
+          "text": "72\u00b0F",
+          "text_font": "lv_font_montserrat_16",
+          "text_color": "#ffffff"
+        },
+        {
+          "name": "DriveModeHeader",
+          "type": "lv_label",
+          "x": 410,
+          "y": 14,
+          "text": "M",
+          "text_font": "lv_font_montserrat_16",
+          "text_color": "#ffffff"
+        },
+        {
+          "name": "AdasIcon",
+          "type": "lv_label",
+          "x": 360,
+          "y": 36,
+          "text": "[ADAS]",
+          "text_font": "lv_font_montserrat_12",
+          "text_color": "#00e5cc"
+        }
+      ]
+    }
+  ]
+}

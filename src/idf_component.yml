@@ -1,0 +1,23 @@
+## idf_component.yml — ESP32-P4 dashboard, minimal display stack
+## Avoids esp_video / esp_ipa / camera subsystem entirely.
+
+dependencies:
+  idf: ">=5.3.0"
+
+  ## MIPI-DSI panel driver for EK79007 (7" 1024x600)
+  espressif/esp_lcd_ek79007:
+    version: ">=2.0.0,<3.0.0"
+
+  ## GT911 capacitive touch controller driver (I2C)
+  espressif/esp_lcd_touch_gt911:
+    version: ">=1.0.0,<2.0.0"
+
+  ## LVGL <-> esp_lcd bridge: flush, vsync, mutex, input device registration
+  espressif/esp_lvgl_port:
+    version: ">=2.3.0,<3.0.0"
+
+  ## LVGL v9 graphics library
+  lvgl/lvgl:
+    version: ">=9.1.0,<10.0.0"
+    rules:
+      - if: "idf_version >= 5.0"

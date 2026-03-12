@@ -1,0 +1,16 @@
+## idf_component.yml — JC8012P4A1C_I_W_Y (ESP32-P4 + JD9365 + GSL3680)
+## JD9365 and GSL3680 drivers are local (src/lcd/, src/touch/)
+## No EK79007, no GT911.
+
+dependencies:
+  idf: ">=5.3.0"
+
+  ## Touch abstraction layer (needed by GSL3680 driver)
+  espressif/esp_lcd_touch:
+    version: ">=1.0.0"
+
+  ## LVGL v9 graphics library
+  lvgl/lvgl:
+    version: ">=9.1.0,<10.0.0"
+    rules:
+      - if: "idf_version >= 5.0"
